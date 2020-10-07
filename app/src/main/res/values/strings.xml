@@ -1,0 +1,5 @@
+<resources>
+  <string name="app_name">Mono Connect Widget</string>
+  <string name="launch_widget_btn">Launch widget</string>
+  <string name="connect_public_key">live_pk_hYRrAJiJM8I5qusXp4h2</string>
+</resources>
