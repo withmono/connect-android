@@ -2,8 +2,7 @@
 
 This is the official implementation of the mono connect widget for integration with android apps.
 
-Request access here:
-https://app.withmono.com/register
+Request access [here](https://app.withmono.com/register) to get your API keys
 
 # Installation
 
