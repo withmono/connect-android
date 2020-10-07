@@ -2,6 +2,9 @@
 
 This is the official implementation of the mono connect widget for integration with android apps.
 
+Request access here:
+https://app.withmono.com/register
+
 # Installation
 
 ## Gradle
