@@ -1,7 +1,9 @@
 package mono.connect.widget;
 
 import android.app.Activity;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -16,16 +18,16 @@ public class MonoWebInterface {
   }
 
   @JavascriptInterface
-  public void onMessage(String message) throws JSONException {
+  public void postMessage(String message) throws JSONException {
     Event event = Event.fromString(message);
     this.mActivity.finish();
 
     switch (event.getType()) {
-      case "mono.widget.closed":
+      case "mono.connect.widget.closed":
         mEventListener.onClose();
         break;
 
-      case "mono.widget.account_connected":
+      case "mono.connect.widget.account_linked":
         ConnectedAccount account = new ConnectedAccount(event.getData().getString("code"));
         mEventListener.onSuccess(account);
         break;
