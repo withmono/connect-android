@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements EventListener {
     String key = this.getString(R.string.connect_public_key);
     mConnectWidget = new ConnectWidget(this, key);
     mConnectWidget.setListener(this);
-
     View.OnClickListener onClickListener = new View.OnClickListener() {
       @Override
       public void onClick(View v) {
