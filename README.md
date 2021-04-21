@@ -62,3 +62,14 @@ public class MainActivity extends AppCompatActivity implements EventListener {
   }
 }
 ```
+
+## Reauthorisation
+
+```java
+  mLaunchWidgetButton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      mConnectWidget.reauthorise("reauth token");
+    }
+  });
+```
