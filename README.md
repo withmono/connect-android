@@ -63,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements EventListener {
 }
 ```
 
-## Reauthorisation
+## Reauthorisation 
+Read more about Reauthorisation [here](https://docs.mono.co/reference#reauthorisation).
 
 ```java
   mLaunchWidgetButton.setOnClickListener(new View.OnClickListener() {
