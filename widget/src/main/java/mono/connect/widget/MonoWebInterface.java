@@ -20,16 +20,17 @@ public class MonoWebInterface {
   @JavascriptInterface
   public void postMessage(String message) throws JSONException {
     Event event = Event.fromString(message);
-    this.mActivity.finish();
 
     switch (event.getType()) {
       case "mono.connect.widget.closed":
         mEventListener.onClose();
+        this.mActivity.finish();
         break;
 
       case "mono.connect.widget.account_linked":
         ConnectedAccount account = new ConnectedAccount(event.getData().getString("code"));
         mEventListener.onSuccess(account);
+        this.mActivity.finish();
         break;
     }
   }

@@ -1,4 +1,4 @@
-package mono.connect.widget;
+package mono.connect.kit;
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,9 +11,12 @@ import android.widget.ProgressBar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import mono.connect.R;
 
-public class ConnectWidgetActivity extends AppCompatActivity {
+public class ConnectKitActivity extends AppCompatActivity {
   private ProgressBar mConnectLoader;
   private View mProgressContainer;
 
@@ -28,6 +31,17 @@ public class ConnectWidgetActivity extends AppCompatActivity {
     public void onPageFinished(WebView view, final String url) {
       mProgressContainer.setVisibility(View.GONE);
       mConnectLoader.setVisibility(View.GONE);
+
+      // trigger LOADED event
+      JSONObject data = new JSONObject();
+      long unixTime = System.currentTimeMillis() / 1000L;
+      try {
+        data.put("timestamp", unixTime);
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
+      ConnectEvent connectEvent = new ConnectEvent("OPENED", data);
+      MonoWebInterface.getInstance().triggerEvent(connectEvent);
     }
   };
 
@@ -54,9 +68,9 @@ public class ConnectWidgetActivity extends AppCompatActivity {
     mWebView.getSettings().setUseWideViewPort(true);
 
     mWebView.setWebViewClient(mWebViewClient);
+
     MonoWebInterface instance = MonoWebInterface.getInstance();
     instance.setActivity(this);
-
 
     mWebView.addJavascriptInterface(instance, "MonoClientInterface");
     mWebView.loadUrl(url);
