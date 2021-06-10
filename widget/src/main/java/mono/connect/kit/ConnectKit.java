@@ -31,6 +31,10 @@ public class ConnectKit {
       this.params.put(Constants.KEY_REFERENCE, config.reference);
     }
 
+    if(config.reauthCode != null){
+      this.params.put(Constants.KEY_REAUTH_TOKEN, config.reauthCode);
+    }
+
     if(config.onSuccess != null){
       MonoWebInterface.getInstance().setOnSuccess(config.onSuccess);
     }
@@ -55,11 +59,6 @@ public class ConnectKit {
   }
 
   public void show() {
-    this.startWidgetActivity();
-  }
-
-  public void reauthorise(String token) {
-    this.params.put(Constants.KEY_REAUTH_TOKEN, token);
     this.startWidgetActivity();
   }
 
