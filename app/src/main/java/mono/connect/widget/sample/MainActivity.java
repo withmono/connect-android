@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   void setup() {
+    // replace your public key in strings.xml
     String key = this.getString(R.string.connect_public_key);
 
     MonoConfiguration config = new MonoConfiguration.Builder(this,
