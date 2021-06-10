@@ -11,8 +11,6 @@ import android.widget.ProgressBar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import mono.connect.R;
-
 public class ConnectWidgetActivity extends AppCompatActivity {
   private ProgressBar mConnectLoader;
   private View mProgressContainer;

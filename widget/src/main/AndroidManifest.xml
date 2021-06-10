@@ -1,9 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="mono.connect">
+  package="mono.connect.widget">
   <uses-permission android:name="android.permission.INTERNET" />
 
   <application>
-    <activity android:name=".widget.ConnectWidgetActivity" />
-    <activity android:name=".kit.ConnectKitActivity" />
+    <activity android:name=".ConnectWidgetActivity" />
   </application>
 </manifest>
