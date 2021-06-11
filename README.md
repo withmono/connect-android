@@ -1,6 +1,6 @@
 # Mono Connect Android SDK
 
-The Mono Connect SDK is a quick and secure way to link bank accounts to Mono from within your Andriod app. Mono Connect is a drop-in framework that handles connecting a financial institution to your app (credential validation, multi-factor authentication, error handling, etc).
+The Mono Connect SDK is a quick and secure way to link bank accounts to Mono from within your Android app. Mono Connect is a drop-in framework that handles connecting a financial institution to your app (credential validation, multi-factor authentication, error handling, etc).
 
 For accessing customer accounts and interacting with Mono's API (Identity, Transactions, Income, TransferPay) use the server-side [Mono API](https://docs.mono.co/docs/intro-to-mono-api).
 
@@ -44,7 +44,7 @@ dependencies {
 
 ## Usage
 
-Before you can open Mono Connect, you need to first create a `publicKey`. Your `publicKey` can be found in the [Mono Dashboard](https://app.withmono.com/apps). 
+Before you can open Mono Connect, you need to first create a `publicKey`. Your `publicKey` can be found in the [Mono Dashboard](https://app.withmono.com/apps).
 
 
 #### Import ConnectKit
@@ -200,7 +200,7 @@ The Mono Object provides two functions for easy interaction with the Mono Connec
 
 ### <a name="MonoConfiguration"></a> MonoConfiguration
 
-The configuration option is passed to Mono.create(config: MonoConfiguration) or Mono.reauthorise(config: MonoConfiguration). 
+The configuration option is passed to Mono.create(config: MonoConfiguration) or Mono.reauthorise(config: MonoConfiguration).
 
 ```java
 publicKey: String // required
@@ -332,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
 
 1. First you will need to get a Reauth token on your backend with the [Reauthorise API](https://docs.mono.co/reference/reauth-code).
 
-2. Then you have to pass this token to the frontend for user authentication. 
+2. Then you have to pass this token to the frontend for user authentication.
 
 3. Complete the reauthorisation flow by passing the token to the widget configuration and open the widget.
 
@@ -390,15 +390,15 @@ public class MainActivity extends AppCompatActivity {
 ```
 
 ## Support
-If you're having general trouble with Mono Connect Andriod SDK or your Mono integration, please reach out to us at <hi@mono.co> or come chat with us on [Slack](https://join.slack.com/t/devwithmono/shared_invite/zt-gvkqczzk-Ldt4FQpHtOL7FFTqh4Ux6A). We're proud of our level of service, and we're more than happy to help you out with your integration to Mono.
+If you're having general trouble with Mono Connect Android SDK or your Mono integration, please reach out to us at <hi@mono.co> or come chat with us on [Slack](https://join.slack.com/t/devwithmono/shared_invite/zt-gvkqczzk-Ldt4FQpHtOL7FFTqh4Ux6A). We're proud of our level of service, and we're more than happy to help you out with your integration to Mono.
 
 ## Contributing
-If you would like to contribute to the Mono Connect Andriod SDK, please make sure to read our [contributor guidelines](https://github.com/withmono/conect-andriod/tree/master/CONTRIBUTING.md).
+If you would like to contribute to the Mono Connect Android SDK, please make sure to read our [contributor guidelines](https://github.com/withmono/conect-android/tree/master/CONTRIBUTING.md).
 
 
 ## License
 
-[MIT](https://github.com/withmono/conect-andriod/tree/master/LICENSE) for more information.
+[MIT](https://github.com/withmono/conect-android/tree/master/LICENSE) for more information.
 
 
 
@@ -414,7 +414,7 @@ public class MainActivity extends AppCompatActivity implements EventListener {
 
   void setup() {
     String key = this.getString(R.string.connect_public_key);
-    
+
     mConnectWidget = new ConnectWidget(this, key);
     mConnectWidget.setListener(this);
 
@@ -440,7 +440,7 @@ public class MainActivity extends AppCompatActivity implements EventListener {
 }
 ```
 
-## Reauthorisation 
+## Reauthorisation
 Read more about Reauthorisation [here](https://docs.mono.co/reference#reauthorisation).
 
 ```java
