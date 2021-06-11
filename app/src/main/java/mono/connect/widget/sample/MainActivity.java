@@ -30,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
               System.out.println("Successfully linked account. Code: "+code.getCode());
             })
             .addReference("test")
-            .addReauthCode("code_xyz")
             .addOnEvent((event) -> {
               System.out.println("Triggered: "+event.getEventName());
+              System.out.println("ref: "+event.getData().getString("reference"));
             })
             .addOnClose(() -> {
               System.out.println("Widiget closed.");

@@ -7,11 +7,16 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class MonoWebInterface {
   private static MonoWebInterface mInstance;
   private ConnectSuccessCallback onSuccess = null;
   private ConnectCloseCallback onClose = null;
   private ConnectEventCallback onEvent = null;
+  public static final List<String> DEPRECATED_EVENTS = Arrays.asList("mono.connect.widget.closed", "mono.connect.widget.account_linked", "mono.modal.closed", "mono.modal.linked");
+
 
   private Activity mActivity;
 
@@ -26,7 +31,7 @@ public class MonoWebInterface {
 
     Log.d("Type: ", event.getType());
 
-    if(!event.getType().equals("mono.connect.widget.closed") && !event.getType().equals("mono.connect.widget.account_linked") && !event.getType().equals("mono.modal.closed") && !event.getType().equals("mono.modal.linked")){
+    if(!DEPRECATED_EVENTS.contains(event.getType())){
       if(onEvent != null){
         onEvent.run(connectEvent);
       }
@@ -75,7 +80,7 @@ public class MonoWebInterface {
   }
 
 
-  public void triggerEvent(ConnectEvent connectEvent){
+  public void triggerEvent(ConnectEvent connectEvent) throws JSONException{
     if(onEvent != null){
       onEvent.run(connectEvent);
     }

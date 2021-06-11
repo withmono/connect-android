@@ -37,11 +37,11 @@ public class ConnectKitActivity extends AppCompatActivity {
       long unixTime = System.currentTimeMillis() / 1000L;
       try {
         data.put("timestamp", unixTime);
+        ConnectEvent connectEvent = new ConnectEvent("OPENED", data);
+        MonoWebInterface.getInstance().triggerEvent(connectEvent);
       } catch (JSONException e) {
         e.printStackTrace();
       }
-      ConnectEvent connectEvent = new ConnectEvent("OPENED", data);
-      MonoWebInterface.getInstance().triggerEvent(connectEvent);
     }
   };
 
