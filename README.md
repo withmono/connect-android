@@ -64,7 +64,7 @@ MonoConfiguration config = new MonoConfiguration.Builder(this,
     System.out.println("Triggered: "+event.getEventName());
   }) // onEvent function
   .addOnClose(() -> {
-    System.out.println("Widiget closed.");
+    System.out.println("Widget closed.");
   }) // onClose function
   .build();
 ```
@@ -93,6 +93,8 @@ findViewById(R.id.launch_widget).setOnClickListener(onClickListener);
 - [`onEvent`](#onEvent)
 - [`reference`](#reference)
 - [`reauthCode`](#reauthCode)
+- [`selectedInstitution`](#selectedInstitution)
+
 
 
 ### <a name="publicKey"></a> `publicKey`
@@ -135,7 +137,7 @@ MonoConfiguration config = new MonoConfiguration.Builder(this,
     System.out.println("Successfully linked account. Code: " + account.getCode());
   }) // onSuccess function
   .addOnClose(() -> {
-    System.out.println("Widiget closed.");
+    System.out.println("Widget closed.");
   }) // onClose function
   .build();
 ```
@@ -174,7 +176,7 @@ MonoConfiguration config = new MonoConfiguration.Builder(this,
   .build();
 ```
 
-### <a name="reauthCode"></a> `reauthCode `
+### <a name="reauthCode"></a> `reauthCode`
 **String: Optional**
 
 Reauthorisation of already authenticated accounts is done when MFA (Multi Factor Authentication) or 2FA is required by the institution for security purposes before more data can be fetched from the account.
@@ -190,6 +192,22 @@ MonoConfiguration config = new MonoConfiguration.Builder(this,
   .addReauthCode("code_xyz")
   .build();
 ```
+### <a name="selectedInstitution"></a> `selectedInstitution`
+**String: Optional**
+
+Passing the `selectedInstitution` option allows you to open  the widget directly to a financial institution's login page. It takes two options `String id` which is the id of the institution, and `String auth_method` which can be `"internet_banking"` or `"mobile_banking"` which will open to the respective bank login.
+
+```java
+MonoConfiguration config = new MonoConfiguration.Builder(this,
+  "test_pk_...", // your publicKey
+  (account) -> {
+    System.out.println("Successfully linked account. Code: " + account.getCode());
+  }) // onSuccess function
+  .addSelectedInstitution(new MonoInstitution("5f2d08c060b92e2888287706", "internet_banking"))
+  .build();
+```
+
+
 
 
 ## API Reference
@@ -224,7 +242,7 @@ MonoConfiguration config = new MonoConfiguration.Builder(this,
     System.out.println("Triggered: "+event.getEventName());
   }) // onEvent function
   .addOnClose(() -> {
-    System.out.println("Widiget closed.");
+    System.out.println("Widget closed.");
   }) // onClose function
   .build();
 ````
@@ -309,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
               System.out.println("Triggered: "+event.getEventName());
             })
             .addOnClose(() -> {
-              System.out.println("Widiget closed.");
+              System.out.println("Widget closed.");
             })
             .build();
 

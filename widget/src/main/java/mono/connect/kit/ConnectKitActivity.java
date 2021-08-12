@@ -31,17 +31,6 @@ public class ConnectKitActivity extends AppCompatActivity {
     public void onPageFinished(WebView view, final String url) {
       mProgressContainer.setVisibility(View.GONE);
       mConnectLoader.setVisibility(View.GONE);
-
-      // trigger LOADED event
-      JSONObject data = new JSONObject();
-      long unixTime = System.currentTimeMillis() / 1000L;
-      try {
-        data.put("timestamp", unixTime);
-        ConnectEvent connectEvent = new ConnectEvent("OPENED", data);
-        MonoWebInterface.getInstance().triggerEvent(connectEvent);
-      } catch (JSONException e) {
-        e.printStackTrace();
-      }
     }
   };
 
@@ -74,5 +63,22 @@ public class ConnectKitActivity extends AppCompatActivity {
 
     mWebView.addJavascriptInterface(instance, "MonoClientInterface");
     mWebView.loadUrl(url);
+
+    // trigger OPENED event
+    JSONObject data = new JSONObject();
+    long unixTime = System.currentTimeMillis() / 1000L;
+    try {
+      data.put("timestamp", unixTime);
+      String reference = instance.getReference();
+      if(reference != null){
+        data.put("reference", reference);
+        data.put("type", "mono.connect.widget_opened");
+      }
+      ConnectEvent connectEvent = new ConnectEvent("OPENED", data);
+      instance.triggerEvent(connectEvent);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
   }
 }
