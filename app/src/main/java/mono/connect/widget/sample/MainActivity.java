@@ -32,10 +32,12 @@ public class MainActivity extends AppCompatActivity {
             .addReference("test")
             .addOnEvent((event) -> {
               System.out.println("Triggered: "+event.getEventName());
-              System.out.println("ref: "+event.getData().getString("reference"));
+              if(event.getData().has("reference")){
+                System.out.println("ref: "+event.getData().getString("reference"));
+              }
             })
             .addOnClose(() -> {
-              System.out.println("Widiget closed.");
+              System.out.println("Widget closed.");
             })
             .build();
 

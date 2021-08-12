@@ -24,6 +24,8 @@ public class ConnectEvent {
 
         if(type.equals("mono.connect.widget_opened")){
             name = "OPENED";
+        }else if(type.equals("mono.connect.widget.account_linked")){
+            name = "SUCCESS";
         }else if(type.equals("mono.connect.error_occured")){
             name = "ERROR";
         }else if(type.equals("mono.connect.institution_selected")){
