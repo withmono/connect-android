@@ -6,6 +6,7 @@ import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;
@@ -53,6 +54,19 @@ public class MonoWebInterface {
         ConnectedAccount account = new ConnectedAccount(event.getData().getString("code"));
         if(onSuccess != null){
           onSuccess.run(account);
+
+          // trigger LOADED event
+          JSONObject data = new JSONObject();
+          long unixTime = System.currentTimeMillis() / 1000L;
+          try {
+            data.put("timestamp", unixTime);
+            data.put("code", account.getCode());
+            ConnectEvent successEvent = new ConnectEvent("SUCCESS", data);
+            MonoWebInterface.getInstance().triggerEvent(successEvent);
+          } catch (JSONException e) {
+            e.printStackTrace();
+          }
+
         }
         this.mActivity.finish();
         break;

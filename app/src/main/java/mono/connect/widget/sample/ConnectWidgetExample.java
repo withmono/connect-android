@@ -41,7 +41,7 @@ public class ConnectWidgetExample extends AppCompatActivity {
                     System.out.println("Triggered: "+event.getEventName());
                 })
                 .addOnClose(() -> {
-                    System.out.println("Widiget closed.");
+                    System.out.println("Widget closed.");
                 })
                 .build();
 

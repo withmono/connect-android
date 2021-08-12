@@ -256,6 +256,7 @@ Event names corespond to the `type` key returned by the event data. Possible opt
 | Event Name | Description |
 | ----------- | ----------- |
 | OPENED | Triggered when the user opens the Connect Widget. |
+| SUCCESS | Triggered when the user successfully links their account and provides the code for autentication. |
 | EXIT | Triggered when the user closes the Connect Widget. |
 | INSTITUTION_SELECTED | Triggered when the user selects an institution. |
 | AUTH_METHOD_SWITCHED | Triggered when the user changes authentication method from internet to mobile banking, or vice versa. |
@@ -270,6 +271,7 @@ The data object of type JSONObect returned from the onEvent callback. You can ac
 
 ```java
 type: String // type of event mono.connect.xxxx
+code: String // code returned from SUCCESS that is used to get account_id
 reference: String // reference passed through the connect config
 pageName: String // name of page the widget exited on
 prevAuthMethod: String // auth method before it was last changed

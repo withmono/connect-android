@@ -31,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
             .addReference("f8k1jg4a82ndb")
             .addOnEvent((event) -> {
               System.out.println("Triggered: "+event.getEventName());
+              if(event.getData().has("reference")){
+                System.out.println("ref: "+event.getData().getString("reference"));
+              }
             })
 //            .addSelectedInstitution(new MonoInstitution("5f2d08c060b92e2888287706", "internet_banking"))
             .addOnClose(() -> {

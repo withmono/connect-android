@@ -1,5 +1,5 @@
 package mono.connect.kit;
 
 public interface ConnectSuccessCallback {
-    void run(ConnectedAccount account);
+    public void run(ConnectedAccount account);
 }

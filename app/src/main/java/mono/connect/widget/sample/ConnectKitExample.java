@@ -33,9 +33,12 @@ public class ConnectKitExample extends AppCompatActivity {
                 .addReauthCode("code_xyz")
                 .addOnEvent((event) -> {
                     System.out.println("Triggered: "+event.getEventName());
+                    if(event.getData().has("reference")){
+                        System.out.println("ref: "+event.getData().getString("reference"));
+                    }
                 })
                 .addOnClose(() -> {
-                    System.out.println("Widiget closed.");
+                    System.out.println("Widget closed.");
                 })
                 .build();
 
