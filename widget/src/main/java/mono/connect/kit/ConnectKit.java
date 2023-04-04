@@ -15,6 +15,9 @@ public class ConnectKit {
   private String key;
   private Context context;
 
+  //optionals
+  private MonoInstitution selectedInstitution = null;
+
   private Map<String, String> params = new HashMap<>();
 
   public ConnectKit(Context context, String key) {
@@ -29,6 +32,7 @@ public class ConnectKit {
 
     if(config.reference != null){
       this.params.put(Constants.KEY_REFERENCE, config.reference);
+      MonoWebInterface.getInstance().setReference(config.reference);
     }
 
     if(config.reauthCode != null){
@@ -43,6 +47,10 @@ public class ConnectKit {
     }
     if(config.onEvent != null){
       MonoWebInterface.getInstance().setOnEvent(config.onEvent);
+    }
+
+    if(config.selectedInstitution != null){
+      this.selectedInstitution = config.selectedInstitution;
     }
 
   }
@@ -68,6 +76,10 @@ public class ConnectKit {
       .authority(Constants.CONNECT_URL)
       .appendQueryParameter(Constants.KEY_VERSION, Constants.VERSION)
       .appendQueryParameter("key", this.key);
+
+    if(selectedInstitution != null){
+      builder.appendQueryParameter("selectedInstitution", "{\"id\":\""+selectedInstitution.getId()+"\", \"auth_method\": \""+selectedInstitution.getAuthMethod()+"\"}");
+    }
 
     for (Map.Entry<String, String> entry : this.params.entrySet()) {
       builder.appendQueryParameter(entry.getKey(), entry.getValue());

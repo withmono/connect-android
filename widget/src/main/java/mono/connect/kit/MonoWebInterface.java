@@ -16,10 +16,14 @@ public class MonoWebInterface {
   private ConnectSuccessCallback onSuccess = null;
   private ConnectCloseCallback onClose = null;
   private ConnectEventCallback onEvent = null;
+  private String reference = null;
   public static final List<String> DEPRECATED_EVENTS = Arrays.asList("mono.connect.widget.closed", "mono.connect.widget.account_linked", "mono.modal.closed", "mono.modal.linked");
 
-
   private Activity mActivity;
+
+  public void reset (){
+    mInstance = new MonoWebInterface();
+  }
 
   public void setActivity(Activity activity) {
     this.mActivity = activity;
@@ -93,6 +97,16 @@ public class MonoWebInterface {
     return this.onEvent;
   }
 
+  public void setReference(String ref){
+    reference = ref;
+  }
+
+  public String getReference(){
+    if(reference != null){
+      return reference;
+    }
+    return null;
+  }
 
   public void triggerEvent(ConnectEvent connectEvent) throws JSONException{
     if(onEvent != null){
