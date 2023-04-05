@@ -1,9 +1,7 @@
 package mono.connect.widget;
 
 import android.app.Activity;
-import android.util.Log;
 import android.webkit.JavascriptInterface;
-import android.widget.Toast;
 
 import org.json.JSONException;
 

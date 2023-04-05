@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
-import android.webkit.WebView;
 
 import java.util.HashMap;
 import java.util.Map;
