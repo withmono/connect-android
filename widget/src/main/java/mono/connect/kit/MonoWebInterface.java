@@ -3,7 +3,6 @@ package mono.connect.kit;
 import android.app.Activity;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;

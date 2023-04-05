@@ -32,7 +32,7 @@ allprojects {
 
 ```sh
 dependencies {
-  implementation 'com.github.withmono:mono-connect-android:v1.0.1'
+  implementation 'com.github.withmono:mono-connect-android:v1.1.1'
 }
 ```
 
