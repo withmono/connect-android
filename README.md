@@ -15,6 +15,10 @@ For complete information about Mono Connect, head to the [docs](https://docs.mon
 1. Register on the [Mono](https://app.withmono.com/dashboard) website and get your public and secret keys.
 2. Setup a server to [exchange tokens](https://docs.mono.co/reference/authentication-endpoint) to access user financial data with your Mono secret key.
 
+### Installation Guides
+Follow the integrations guides for [Java Language](#java-integration), [Kotlin Language](#kotlin-integration), and [Jetpack Compose](#jetpack-compose).
+
+### Java Integration
 ## Installation
 
 ### Gradle
@@ -409,19 +413,6 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 
-## Support
-If you're having general trouble with Mono Connect Android SDK or your Mono integration, please reach out to us at <hi@mono.co> or come chat with us on Slack. We're proud of our level of service, and we're more than happy to help you out with your integration to Mono.
-
-## Contributing
-If you would like to contribute to the Mono Connect Android SDK, please make sure to read our [contributor guidelines](https://github.com/withmono/conect-android/tree/master/CONTRIBUTING.md).
-
-
-## License
-
-[MIT](https://github.com/withmono/conect-android/tree/master/LICENSE) for more information.
-
-
-
 ## Deprecated Implementation
 
 ```java
@@ -471,3 +462,191 @@ Read more about Reauthorisation [here](https://docs.mono.co/reference#reauthoris
     }
   });
 ```
+
+
+### Kotlin Integration
+## Installation
+
+There are two options to add the Mono Android Kotlin SDK to your project:
+
+Option 1: Add the following to your project's build.gradle file:
+
+```gradle
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+dependencies {
+    implementation 'com.github.withmono:mono-connect-android:v1.1.1'
+}
+```
+Option 2: Add the following to your project's settings.gradle file:
+```gradle
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+dependencies {
+    implementation 'com.github.withmono:mono-connect-android:v1.1.1'
+}
+
+```
+## Usage
+Create an instance of the ConnectKit class by passing in your public key and a callback to handle the authorization code:
+
+```kotlin
+private lateinit var mConnectKit: ConnectKit
+
+private fun setup() {
+    // replace your public key in strings.xml
+    val key = getString(R.string.connect_public_key)
+
+    val config = MonoConfiguration.Builder(this, key) { code ->
+        println("Successfully linked account. Code: ${code.code}")
+    }
+        .addReference("test")
+        .addOnEvent { event ->
+            println("Triggered: ${event.eventName}")
+            if (event.data.has("reference")) {
+                println("ref: ${event.data.getString("reference")}")
+            }
+        }
+        .addOnClose { println("Widget closed.") }
+        .build()
+
+    mConnectKit = Mono.create(config)
+}
+```
+
+Call the show() method of the ConnectKit instance to launch the Mono widget:
+
+```kotlin
+val onClickListener = View.OnClickListener { mConnectKit.show() }
+
+findViewById<View>(R.id.launch_widget).setOnClickListener(onClickListener)
+
+```
+
+
+### Jetpack Compose
+## Installation
+### Set up dependencies
+​
+Make sure your `build.gradle` files are set up as follows:
+​
+In build.gradle (app module):
+​
+```gradle
+android {
+// Rest of the code
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.4.1'
+    }
+}
+```
+In build.gradle (project level):
+```gradle
+buildscript {
+    ext {
+        compose_version = '1.4.1'
+    }
+}
+​
+plugins {
+// Rest of the code
+    id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
+}
+```
+​
+In the `settings.gradle` file, add the following:
+```gradle
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+​
+And in the `dependencies` section of the `build.gradle` file, add the following:
+​
+```gradle
+implementation 'com.github.withmono:mono-connect-android:v1.1.1'
+```
+​
+## Usage
+
+### Add ConnectKitActivity to the manifest
+
+Add the following code to your AndroidManifest.xml file:
+```xml
+<application>
+    <!-- Rest of the code -->
+    <activity
+        android:name="mono.connect.kit.ConnectKitActivity"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+</application>
+```
+### Add the Mono Connect SDK to your app
+
+Add the following code to your Jetpack Compose activity file:
+
+```kotlin
+@Composable
+fun ConnectKitExample() {
+    val context = LocalContext.current
+    val key = context.getString(R.string.connect_public_key)
+
+    val config = MonoConfiguration.Builder(context, key) { code ->
+        println("Successfully linked account. Code: ${code.code}")
+    }
+        .addReference("test")
+        .addOnEvent { event ->
+            println("Triggered: ${event.eventName}")
+            if (event.data.has("reference")) {
+                println("ref: ${event.data.getString("reference")}")
+            }
+        }
+        .addOnClose { println("Widget closed.") }
+        .build()
+
+    val mConnectKit = Mono.create(config)
+
+    Column {
+        Button(onClick = { mConnectKit.show() }) {
+            Text(text = "Launch Widget")
+        }
+    }
+}
+
+```
+
+Replace connect_public_key with your public key obtained from Mono Dashboard.
+
+
+## Support
+If you're having general trouble with Mono Connect Android SDK or your Mono integration, please reach out to us at <hi@mono.co> or come chat with us on Slack. We're proud of our level of service, and we're more than happy to help you out with your integration to Mono.
+
+## Contributing
+If you would like to contribute to the Mono Connect Android SDK, please make sure to read our [contributor guidelines](https://github.com/withmono/conect-android/tree/master/CONTRIBUTING.md).
+
+
+## License
+
+[MIT](https://github.com/withmono/conect-android/tree/master/LICENSE) for more information.
