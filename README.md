@@ -16,7 +16,7 @@ For complete information about Mono Connect, head to the [docs](https://docs.mon
 2. Setup a server to [exchange tokens](https://docs.mono.co/reference/authentication-endpoint) to access user financial data with your Mono secret key.
 
 ### Installation Guides
-Follow the integrations for [Java Language](#java-integration), [Kotlin Language](#kotlin-integration), and [Jetpack Compose](#jetpack-compose).
+Follow the integrations guides for [Java Language](#java-integration), [Kotlin Language](#kotlin-integration), and [Jetpack Compose](#jetpack-compose).
 
 ### Java Integration
 ## Installation
