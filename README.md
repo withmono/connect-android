@@ -637,7 +637,7 @@ fun ConnectKitExample() {
 
 ```
 
-Replace connect_public_key with your public key obtained from Mono website.
+Replace connect_public_key with your public key obtained from Mono Dashboard.
 
 
 ## Support
