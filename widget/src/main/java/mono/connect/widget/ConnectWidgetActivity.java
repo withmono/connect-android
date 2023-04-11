@@ -33,12 +33,13 @@ public class ConnectWidgetActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(@Nullable Bundle bundle) {
-    super.onCreate(bundle);
-    requestWindowFeature(Window.FEATURE_NO_TITLE);
+    supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
       WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+    super.onCreate(bundle);
     setContentView(R.layout.main);
+
     this.setup();
   }
 

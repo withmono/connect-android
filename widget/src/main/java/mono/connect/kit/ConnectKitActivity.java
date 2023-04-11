@@ -1,5 +1,6 @@
 package mono.connect.kit;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -31,12 +32,23 @@ public class ConnectKitActivity extends AppCompatActivity {
     public void onPageFinished(WebView view, final String url) {
       mProgressContainer.setVisibility(View.GONE);
       mConnectLoader.setVisibility(View.GONE);
+
+      // trigger LOADED event
+      JSONObject data = new JSONObject();
+      long unixTime = System.currentTimeMillis() / 1000L;
+      try {
+        data.put("timestamp", unixTime);
+        ConnectEvent connectEvent = new ConnectEvent("OPENED", data);
+        MonoWebInterface.getInstance().triggerEvent(connectEvent);
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
     }
   };
 
   @Override
   protected void onCreate(@Nullable Bundle bundle) {
-    requestWindowFeature(Window.FEATURE_NO_TITLE);
+    supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -46,6 +58,7 @@ public class ConnectKitActivity extends AppCompatActivity {
     this.setup();
   }
 
+  @SuppressLint("SetJavaScriptEnabled")
   private void setup() {
     WebView mWebView = this.findViewById(R.id.connect_web_view);
     mConnectLoader = this.findViewById(R.id.connect_loader);
