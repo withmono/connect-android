@@ -62,6 +62,8 @@ public class MonoWebInterface {
             data.put("code", account.getCode());
             ConnectEvent successEvent = new ConnectEvent("SUCCESS", data);
             MonoWebInterface.getInstance().triggerEvent(successEvent);
+            onClose.run();
+            this.mActivity.finish();
           } catch (JSONException e) {
             e.printStackTrace();
           }
