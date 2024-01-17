@@ -23,12 +23,17 @@ public class MainActivity extends AppCompatActivity {
   void setup() {
     String key = this.getString(R.string.connect_public_key);
 
+     MonoIdentity identity = new MonoIdentity("bvn", "2011119422");
+     MonoCustomer customer = new MonoCustomer("Samuel Olumide", "example@gmail.com", identity);
+    // MonoCustomer customer = new MonoCustomer("65a7aac0bbeafdb9352daab6");
+
     MonoConfiguration config = new MonoConfiguration.Builder(this,
             key,
             (code) -> {
-              System.out.println("Successfully linked account. Code: "+code.getCode());
+              Log.d("result","Successfully linked account. Code: "+code.getCode());
             })
             .addReference("f8k1jg4a82ndb")
+            .addCustomer(customer)
             .addOnEvent((event) -> {
               System.out.println("Triggered: "+event.getEventName());
               if(event.getData().has("reference")){

@@ -5,6 +5,10 @@ The Mono Connect SDK is a quick and secure way to link bank accounts to Mono fro
 For accessing customer accounts and interacting with Mono's API (Identity, Transactions, Income, DirectPay) use the server-side [Mono API](https://docs.mono.co/docs/intro-to-mono-api).
 
 
+## Version 2.0.0 Public Beta
+
+<b>Important</b>: Version 2.0.0 is currently in the public beta phase. This means it's available for testing and feedback from the community. Please be aware that there may be bugs, and some features might undergo changes before the stable release.
+
 ## Documentation
 
 For complete information about Mono Connect, head to the [docs](https://docs.mono.co/docs/intro-to-mono-connect-widget).
@@ -36,7 +40,7 @@ allprojects {
 
 ```sh
 dependencies {
-  implementation 'com.github.withmono:mono-connect-android:v1.1.4'
+  implementation 'com.github.withmono:mono-connect-android:v2.0.0'
 }
 ```
 
@@ -433,58 +437,6 @@ public class MainActivity extends AppCompatActivity {
 
 }
 ```
-
-## Deprecated Implementation
-
-```java
-import mono.connect.widget.ConnectWidget;
-import mono.connect.widget.ConnectedAccount;
-import mono.connect.widget.EventListener;
-
-
-public class MainActivity extends AppCompatActivity implements EventListener {
-
-  void setup() {
-    String key = this.getString(R.string.connect_public_key);
-
-    mConnectWidget = new ConnectWidget(this, key);
-    mConnectWidget.setListener(this);
-
-    Button mLaunchWidgetButton = findViewById(R.id.launch_widget);
-    mLaunchWidgetButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        mConnectWidget.show();
-      }
-    });
-  }
-
-  @Override
-  public void onClose() {
-    Toast.makeText(this, "widget closed", Toast.LENGTH_LONG).show();
-  }
-
-  @Override
-  public void onSuccess(ConnectedAccount account) {
-    Toast.makeText(this, "Account successfully connected", Toast.LENGTH_LONG).show();
-    Toast.makeText(this, String.format("Account auth code: %s", account.getCode()), Toast.LENGTH_LONG).show();
-  }
-}
-```
-
-## Reauthorisation
-Read more about Reauthorisation [here](https://docs.mono.co/reference#reauthorisation).
-
-```java
-  mLaunchWidgetButton.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-      mConnectWidget.reauthorise("reauth token");
-    }
-  });
-```
-
-
 ### Kotlin Integration
 ## Installation
 
@@ -501,7 +453,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.withmono:mono-connect-android:v1.1.4'
+    implementation 'com.github.withmono:mono-connect-android:v2.0.0'
 }
 ```
 Option 2: Add the following to your project's settings.gradle file:
@@ -516,7 +468,7 @@ dependencyResolutionManagement {
 }
 
 dependencies {
-    implementation 'com.github.withmono:mono-connect-android:v1.1.4'
+    implementation 'com.github.withmono:mono-connect-android:v2.0.0'
 }
 
 ```
@@ -608,7 +560,7 @@ dependencyResolutionManagement {
 And in the `dependencies` section of the `build.gradle` file, add the following:
 ​
 ```gradle
-implementation 'com.github.withmono:mono-connect-android:v1.1.4'
+implementation 'com.github.withmono:mono-connect-android:v2.0.0'
 ```
 ​
 ## Usage

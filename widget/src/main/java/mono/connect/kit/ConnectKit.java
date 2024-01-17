@@ -8,11 +8,12 @@ import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import com.google.gson.Gson;
 
 public class ConnectKit {
   private String key;
   private Context context;
+  private ConnectData data;
 
   //optionals
   private MonoInstitution selectedInstitution = null;
@@ -25,7 +26,6 @@ public class ConnectKit {
   }
 
   public ConnectKit(MonoConfiguration config){
-
     this.context = config.context;
     this.key = config.publicKey;
 
@@ -52,6 +52,9 @@ public class ConnectKit {
       this.selectedInstitution = config.selectedInstitution;
     }
 
+    if(config.customer != null){
+      this.data = new ConnectData(config.customer);
+    }
   }
 
   void startWidgetActivity() {
@@ -74,10 +77,13 @@ public class ConnectKit {
     builder.scheme(Constants.URL_SCHEME)
       .authority(Constants.CONNECT_URL)
       .appendQueryParameter(Constants.KEY_VERSION, Constants.VERSION)
-      .appendQueryParameter("key", this.key);
+      .appendQueryParameter("key", this.key)
+      .appendQueryParameter("scope", Constants.SCOPE)
+      .appendQueryParameter("data", new Gson().toJson(this.data));
 
-    if(selectedInstitution != null){
-      builder.appendQueryParameter("selectedInstitution", "{\"id\":\""+selectedInstitution.getId()+"\", \"auth_method\": \""+selectedInstitution.getAuthMethod()+"\"}");
+    if (selectedInstitution != null) {
+      builder.appendQueryParameter("selectedInstitution", "{\"id\":\"" + selectedInstitution.getId()
+          + "\", \"auth_method\": \"" + selectedInstitution.getAuthMethod() + "\"}");
     }
 
     for (Map.Entry<String, String> entry : this.params.entrySet()) {
@@ -85,5 +91,13 @@ public class ConnectKit {
     }
 
     return builder.build().toString();
+  }
+}
+
+class ConnectData {
+  MonoCustomer customer;
+
+  public ConnectData(MonoCustomer customer) {
+    this.customer = customer;
   }
 }
