@@ -1,10 +1,10 @@
 package mono.connect.kit;
 
-public class MonoIdentity {
+public class MonoCustomerIdentity {
     private String type;
     private String number;
 
-    public MonoIdentity(String type, String number) {
+    public MonoCustomerIdentity(String type, String number) {
         this.type = type;
         this.number = number;
     }

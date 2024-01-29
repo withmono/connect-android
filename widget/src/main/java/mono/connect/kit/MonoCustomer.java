@@ -4,13 +4,13 @@ public class MonoCustomer {
     private String id;
     private String name;
     private String email;
-    private MonoIdentity identity;
+    private MonoCustomerIdentity identity;
 
     public MonoCustomer(String id) {
         this.id = id;
     }
 
-    public MonoCustomer(String name, String email, MonoIdentity identity) {
+    public MonoCustomer(String name, String email, MonoCustomerIdentity identity) {
         this.name = name;
         this.email = email;
         this.identity = identity;

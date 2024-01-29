@@ -67,6 +67,7 @@ MonoConfiguration config = new MonoConfiguration.Builder(this,
     System.out.println("Successfully linked account. Code: " + account.getCode());
   }) // onSuccess function
   .addReference("test")
+  .addCustomer(new MonoCustomer("customer_id"))
   .addReauthCode("code_xyz")
   .addOnEvent((event) -> {
     System.out.println("Triggered: "+event.getEventName());
@@ -96,6 +97,7 @@ findViewById(R.id.launch_widget).setOnClickListener(onClickListener);
 ## Configuration Options
 
 - [`publicKey`](#publicKey)
+- [`customer`](#customer)
 - [`onSuccess`](#onSuccess)
 - [`onClose`](#onClose)
 - [`onEvent`](#onEvent)
@@ -116,6 +118,26 @@ MonoConfiguration config = new MonoConfiguration.Builder(this,
   (account) -> {
     System.out.println("Successfully linked account. Code: " + account.getCode());
   }) // onSuccess function
+  .build();
+```
+
+### <a name="customer"></a> `customer`
+**String: Required**
+
+```java
+// new customer
+MonoCustomerIdentity identity = new MonoCustomerIdentity("bvn", "2011119422");
+MonoCustomer customer = new MonoCustomer("Samuel Olumide", "example@gmail.com", identity);
+
+// existing customer
+MonoCustomer customer = new MonoCustomer("customer_id");
+
+MonoConfiguration config = new MonoConfiguration.Builder(this,
+  "test_pk_...", // your publicKey
+  (account) -> {
+    System.out.println("Successfully linked account. Code: " + account.getCode());
+  }) // onSuccess function
+  .addCustomer(customer)
   .build();
 ```
 
@@ -251,6 +273,7 @@ The configuration option is passed to Mono.create(config: MonoConfiguration) or 
 
 ```java
 publicKey: String // required
+customer: String // optional
 onSuccesss: (ConnectedAccount account) -> Void // required
 onClose: () -> Void // optional
 onEvent: (ConnectEvent event) -> Void // optional
@@ -267,6 +290,7 @@ MonoConfiguration config = new MonoConfiguration.Builder(this,
   }) // onSuccess function
   .addReference("test")
   .addReauthCode("code_xyz")
+  .addCustomer(new MonoCustomer(id: "mono_customer_id"))
   .addOnEvent((event) -> {
     System.out.println("Triggered: "+event.getEventName());
   }) // onEvent function
@@ -353,6 +377,7 @@ public class MainActivity extends AppCompatActivity {
             (code) -> {
               System.out.println("Successfully linked account. Code: "+code.getCode());
             })
+            .addCustomer(new MonoCustomer(id: "mono_customer_id"))
             .addReference("f8k1jg4a82ndb")
             .addOnEvent((event) -> {
               System.out.println("Triggered: "+event.getEventName());
@@ -486,6 +511,7 @@ private fun setup() {
         println("Successfully linked account. Code: ${code.code}")
     }
         .addReference("test")
+        .addCustomer(new MonoCustomer("customer_id"))
         .addOnEvent { event ->
             println("Triggered: ${event.eventName}")
             if (event.data.has("reference")) {
@@ -590,6 +616,7 @@ fun ConnectKitExample() {
         println("Successfully linked account. Code: ${code.code}")
     }
         .addReference("test")
+        .addCustomer(new MonoCustomer("customer_id"))
         .addOnEvent { event ->
             println("Triggered: ${event.eventName}")
             if (event.data.has("reference")) {

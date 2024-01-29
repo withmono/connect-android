@@ -23,6 +23,10 @@ public class ConnectKitExample extends AppCompatActivity {
     void setup() {
         // replace your public key in strings.xml
         String key = this.getString(R.string.connect_public_key);
+        MonoCustomerIdentity identity = new MonoCustomerIdentity("bvn", "2011119422");
+        MonoCustomer customer = new MonoCustomer("Samuel Olumide", "example@gmail.com", identity);
+        // or use an existing customer
+        // MonoCustomer customer = new MonoCustomer("65a7aac0bbeafdb9352daab6");
 
         MonoConfiguration config = new MonoConfiguration.Builder(this,
                 key,
@@ -30,6 +34,7 @@ public class ConnectKitExample extends AppCompatActivity {
                     System.out.println("Successfully linked account. Code: "+code.getCode());
                 })
                 .addReference("test")
+                .addCustomer(customer)
                 .addReauthCode("code_xyz")
                 .addOnEvent((event) -> {
                     System.out.println("Triggered: "+event.getEventName());
