@@ -15,6 +15,7 @@ public class MonoConfiguration {
     public ConnectCloseCallback onClose;
     public ConnectEventCallback onEvent;
     public MonoInstitution selectedInstitution;
+    public MonoCustomer customer;
 
     private MonoConfiguration(Builder builder) {
         this.context = builder.context;
@@ -25,6 +26,7 @@ public class MonoConfiguration {
         this.onClose = builder.onClose;
         this.onEvent = builder.onEvent;
         this.selectedInstitution = builder.selectedInstitution;
+        this.customer = builder.customer;
     }
 
     public static class Builder {
@@ -39,6 +41,7 @@ public class MonoConfiguration {
         private ConnectCloseCallback onClose = null;
         private ConnectEventCallback onEvent = null;
         private MonoInstitution selectedInstitution = null;
+        private MonoCustomer customer = null;
 
         public Builder (Context context, String publicKey, ConnectSuccessCallback onSuccess){
             this.context = context;
@@ -68,6 +71,11 @@ public class MonoConfiguration {
 
         public Builder addSelectedInstitution(MonoInstitution selectedInstitution){
             this.selectedInstitution = selectedInstitution;
+            return this;
+        }
+
+        public Builder addCustomer(MonoCustomer customer){
+            this.customer = customer;
             return this;
         }
 

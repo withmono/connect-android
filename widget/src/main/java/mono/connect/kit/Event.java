@@ -18,7 +18,7 @@ public class Event {
     String type = event.getString("type");
 
     if (event.has("data")) {
-     body = event.getJSONObject("data");
+      body = event.getJSONObject("data");
     }
 
     return new Event(type, body);
