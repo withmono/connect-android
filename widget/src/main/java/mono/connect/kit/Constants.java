@@ -2,7 +2,7 @@ package mono.connect.kit;
 
 public class Constants {
   public static String URL_SCHEME = "https";
-  public static String CONNECT_URL = "frankmartin.vercel.app";
+  public static String CONNECT_URL = "connect.mono.co";
   public static String SCOPE = "auth";
   public static String KEY_URL = "mono.connect.widget.url";
   public static String KEY_REAUTH_TOKEN = "reauth_token";
