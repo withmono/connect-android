@@ -7,6 +7,10 @@ public class MonoCustomer {
     private MonoCustomerIdentity identity;
 
     public MonoCustomer(String id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Both name and email are required when id is not provided");
+        }
+
         this.id = id;
     }
 
