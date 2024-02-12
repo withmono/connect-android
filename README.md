@@ -40,7 +40,7 @@ allprojects {
 
 ```sh
 dependencies {
-  implementation 'com.github.withmono:mono-connect-android:v2.0.1'
+  implementation 'com.github.withmono:mono-connect-android:v2.0.2'
 }
 ```
 
@@ -478,7 +478,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.withmono:mono-connect-android:v2.0.1'
+    implementation 'com.github.withmono:mono-connect-android:v2.0.2'
 }
 ```
 Option 2: Add the following to your project's settings.gradle file:
@@ -493,7 +493,7 @@ dependencyResolutionManagement {
 }
 
 dependencies {
-    implementation 'com.github.withmono:mono-connect-android:v2.0.1'
+    implementation 'com.github.withmono:mono-connect-android:v2.0.2'
 }
 
 ```
@@ -586,7 +586,7 @@ dependencyResolutionManagement {
 And in the `dependencies` section of the `build.gradle` file, add the following:
 ​
 ```gradle
-implementation 'com.github.withmono:mono-connect-android:v2.0.1'
+implementation 'com.github.withmono:mono-connect-android:v2.0.2'
 ```
 ​
 ## Usage
