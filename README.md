@@ -125,12 +125,13 @@ MonoConfiguration config = new MonoConfiguration.Builder(this,
 **String: Required**
 
 ```java
-// new customer
+// For an existing customer, their customer ID can be passed directly
+MonoCustomer customer = new MonoCustomer("65ca02a74e0e963044f0229d");
+
+// If you don't have an existing customer, you can create one by providing their details.
+// The customer will be created after the account connection is successful.
 MonoCustomerIdentity identity = new MonoCustomerIdentity("bvn", "2011119422");
 MonoCustomer customer = new MonoCustomer("Samuel Olumide", "example@gmail.com", identity);
-
-// existing customer
-MonoCustomer customer = new MonoCustomer("customer_id");
 
 MonoConfiguration config = new MonoConfiguration.Builder(this,
   "test_pk_...", // your publicKey
