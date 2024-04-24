@@ -69,6 +69,9 @@ public class ConnectKitActivity extends AppCompatActivity {
     mWebView.getSettings().setJavaScriptEnabled(true);
     mWebView.getSettings().setLoadWithOverviewMode(true);
     mWebView.getSettings().setUseWideViewPort(true);
+    mWebView.getSettings().setDomStorageEnabled(true);
+    mWebView.getSettings().setAllowContentAccess(true);
+    mWebView.getSettings().setAllowFileAccess(true);
 
     mWebView.setWebViewClient(mWebViewClient);
 
@@ -93,6 +96,5 @@ public class ConnectKitActivity extends AppCompatActivity {
     } catch (JSONException e) {
       e.printStackTrace();
     }
-
   }
 }
