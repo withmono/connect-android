@@ -9,12 +9,15 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.ConsoleMessage;
 import android.webkit.PermissionRequest;
 import android.webkit.WebViewClient;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -28,14 +31,15 @@ public class ConnectKitActivity extends AppCompatActivity {
   private View mProgressContainer;
 
   private final String[] permissions = {
-          Manifest.permission.CAMERA,
-          Manifest.permission.RECORD_AUDIO,
-          Manifest.permission.MODIFY_AUDIO_SETTINGS
+          Manifest.permission.CAMERA
   };
-  private final int requestCode = 1;
+
+  private final int REQUEST_CODE = 0;
+  WebView mWebView;
+  String URL;
 
   private void askPermissions() {
-    ActivityCompat.requestPermissions(this, permissions, requestCode);
+    ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE);
   }
 
   private boolean isPermissionGranted() {
@@ -85,12 +89,11 @@ public class ConnectKitActivity extends AppCompatActivity {
 
   @SuppressLint("SetJavaScriptEnabled")
   private void setup() {
-    WebView mWebView = this.findViewById(R.id.connect_web_view);
+    mWebView = this.findViewById(R.id.connect_web_view);
     mConnectLoader = this.findViewById(R.id.connect_loader);
     mProgressContainer = this.findViewById(R.id.progress_container);
 
-    String url = getIntent().getStringExtra(Constants.KEY_URL);
-
+    URL = getIntent().getStringExtra(Constants.KEY_URL);
     mWebView.getSettings().setJavaScriptEnabled(true);
     mWebView.getSettings().setLoadWithOverviewMode(true);
     mWebView.getSettings().setUseWideViewPort(true);
@@ -104,28 +107,24 @@ public class ConnectKitActivity extends AppCompatActivity {
     mWebView.getSettings().setMediaPlaybackRequiresUserGesture(true);
     mWebView.getSettings().setSafeBrowsingEnabled(true);
     mWebView.getSettings().setSupportZoom(true);
-
     mWebView.setWebViewClient(mWebViewClient);
+
+    mWebView.setWebChromeClient(new WebChromeClient() {
+      @Override
+      public void onPermissionRequest(PermissionRequest request) {
+        request.grant(request.getResources());
+      }
+    });
 
     if (!isPermissionGranted()) {
       askPermissions();
     }
 
-    mWebView.setWebChromeClient(new WebChromeClient() {
-      @Override
-      public void onPermissionRequest(PermissionRequest request) {
-        Log.d("onPermissionRequest", "Requesting camera");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-          request.grant(request.getResources());
-        }
-      }
-    });
-
     MonoWebInterface instance = MonoWebInterface.getInstance();
     instance.setActivity(this);
 
     mWebView.addJavascriptInterface(instance, "MonoClientInterface");
-    mWebView.loadUrl(url);
+    mWebView.loadUrl(URL);
 
     // trigger OPENED event
     JSONObject data = new JSONObject();
@@ -141,6 +140,26 @@ public class ConnectKitActivity extends AppCompatActivity {
       instance.triggerEvent(connectEvent);
     } catch (JSONException e) {
       e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    if (requestCode == REQUEST_CODE) {
+      int sum = 0;
+      for (int result: grantResults) {
+        // result will be  0 if PackageManager.PERMISSION_GRANTED
+        // result will be -1 if PackageManager.PERMISSION_DENIED
+        sum += result;
+      }
+
+      if (grantResults.length > 0 && sum == 0) {
+        mWebView.loadUrl(URL);
+      } else {
+        Toast.makeText(this, "Permissions not granted", Toast.LENGTH_SHORT).show();
+        finish();
+      }
     }
   }
 }
