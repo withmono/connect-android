@@ -5,11 +5,9 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.ConsoleMessage;
 import android.webkit.PermissionRequest;
 import android.webkit.WebViewClient;
 import android.webkit.WebChromeClient;
@@ -105,7 +103,9 @@ public class ConnectKitActivity extends AppCompatActivity {
     mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
     mWebView.getSettings().setBuiltInZoomControls(true);
     mWebView.getSettings().setMediaPlaybackRequiresUserGesture(true);
-    mWebView.getSettings().setSafeBrowsingEnabled(true);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      mWebView.getSettings().setSafeBrowsingEnabled(true);
+    }
     mWebView.getSettings().setSupportZoom(true);
     mWebView.setWebViewClient(mWebViewClient);
 
