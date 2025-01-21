@@ -8,10 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.PermissionRequest;
-import android.webkit.WebViewClient;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
+import android.webkit.*;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -49,9 +46,9 @@ public class ConnectKitActivity extends AppCompatActivity {
     return true;
   }
 
-  private WebViewClient mWebViewClient = new WebViewClient() {
+  private final WebViewClient mWebViewClient = new WebViewClient() {
     @Override
-    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
       return true;
     }
 

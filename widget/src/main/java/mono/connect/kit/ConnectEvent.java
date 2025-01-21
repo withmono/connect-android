@@ -5,10 +5,10 @@ import org.json.JSONObject;
 
 public class ConnectEvent {
 
-    private String eventName;
-    private JSONObject data;
+    private final String eventName;
+    private final JSONObject data;
 
-    public ConnectEvent(String eventName, JSONObject data){
+    public ConnectEvent(String eventName, JSONObject data) {
 
         this.eventName = eventName;
         this.data = data;
@@ -22,25 +22,25 @@ public class ConnectEvent {
 
         String name = "UNKNOWN";
 
-        if(type.equals("mono.connect.widget_opened")){
+        if (type.equals("mono.connect.widget_opened")) {
             name = "OPENED";
-        }else if(type.equals("mono.connect.widget.account_linked")){
+        } else if (type.equals("mono.connect.widget.account_linked")) {
             name = "SUCCESS";
-        }else if(type.equals("mono.connect.error_occured")){
+        } else if (type.equals("mono.connect.error_occured")) {
             name = "ERROR";
-        }else if(type.equals("mono.connect.institution_selected")){
+        } else if (type.equals("mono.connect.institution_selected")) {
             name = "INSTITUTION_SELECTED";
-        }else if(type.equals("mono.connect.auth_method_switched")){
+        } else if (type.equals("mono.connect.auth_method_switched")) {
             name = "AUTH_METHOD_SWITCHED";
-        }else if(type.equals("mono.connect.on_exit")){
+        } else if (type.equals("mono.connect.on_exit")) {
             name = "EXIT";
-        }else if(type.equals("mono.connect.login_attempt")){
+        } else if (type.equals("mono.connect.login_attempt")) {
             name = "SUBMIT_CREDENTIALS";
-        }else if(type.equals("mono.connect.mfa_submitted")){
+        } else if (type.equals("mono.connect.mfa_submitted")) {
             name = "SUBMIT_MFA";
-        }else if(type.equals("mono.connect.account_linked")){
+        } else if (type.equals("mono.connect.account_linked")) {
             name = "ACCOUNT_LINKED";
-        }else if(type.equals("mono.connect.account_selected")){
+        } else if (type.equals("mono.connect.account_selected")) {
             name = "ACCOUNT_SELECTED";
         }
 
@@ -51,11 +51,11 @@ public class ConnectEvent {
         return new ConnectEvent(name, body);
     }
 
-    public String getEventName(){
+    public String getEventName() {
         return this.eventName;
     }
 
-    public JSONObject getData(){
+    public JSONObject getData() {
         return this.data;
     }
 

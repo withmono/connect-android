@@ -2,7 +2,7 @@
 
 The Mono Connect SDK is a quick and secure way to link bank accounts to Mono from within your Android app. Mono Connect is a drop-in framework that handles connecting a financial institution to your app (credential validation, multi-factor authentication, error handling, etc).
 
-For accessing customer accounts and interacting with Mono's API (Identity, Transactions, Income, DirectPay) use the server-side [Mono API](https://docs.mono.co/docs/intro-to-mono-api).
+For accessing customer accounts and interacting with Mono's API (Identity, Transactions, Income, DirectPay) use the server-side [Mono API](https://docs.mono.co/api).
 
 
 ## Version 2 Public Beta
@@ -11,13 +11,13 @@ For accessing customer accounts and interacting with Mono's API (Identity, Trans
 
 ## Documentation
 
-For complete information about Mono Connect, head to the [docs](https://docs.mono.co/docs/intro-to-mono-connect-widget).
+For complete information about Mono Connect, head to the [docs](https://docs.mono.co/docs/financial-data/overview).
 
 
 ## Getting Started
 
-1. Register on the [Mono](https://app.withmono.com/dashboard) website and get your public and secret keys.
-2. Setup a server to [exchange tokens](https://docs.mono.co/reference/authentication-endpoint) to access user financial data with your Mono secret key.
+1. Register on the [Mono](https://app.mono.com) website and get your public and secret keys.
+2. Set up a server to [exchange tokens](https://docs.mono.co/api/bank-data/authorisation/exchange-token) to access user financial data with your Mono secret key.
 
 ### Installation Guides
 Follow the integrations guides for [Java Language](#java-integration), [Kotlin Language](#kotlin-integration), and [Jetpack Compose](#jetpack-compose).
@@ -68,7 +68,6 @@ MonoConfiguration config = new MonoConfiguration.Builder(this,
   }) // onSuccess function
   .addReference("test")
   .addCustomer(new MonoCustomer("customer_id"))
-  .addReauthCode("code_xyz")
   .addOnEvent((event) -> {
     System.out.println("Triggered: "+event.getEventName());
   }) // onEvent function
@@ -102,7 +101,7 @@ findViewById(R.id.launch_widget).setOnClickListener(onClickListener);
 - [`onClose`](#onClose)
 - [`onEvent`](#onEvent)
 - [`reference`](#reference)
-- [`reauthCode`](#reauthCode)
+- [`accountId`](#accountId)
 - [`selectedInstitution`](#selectedInstitution)
 
 
@@ -207,38 +206,48 @@ MonoConfiguration config = new MonoConfiguration.Builder(this,
   .build();
 ```
 
-### <a name="reauthCode"></a> `reauthCode`
+### <a name="accountId"></a> `accountId`
 **String: Optional**
 
 ### Re-authorizing an Account with Mono: A Step-by-Step Guide
-#### Step 1: Generate re-authorisation token
-Firstly, Make an API call to the Re-auth (Endpoint)[https://docs.mono.co/reference/reauth-code] with your desired Account ID and your mono application secret key. If successful, this will return a re-auth token.
+#### Step 1: Fetch Account ID for previously linked account
+
+Fetch the Account ID of the linked account from the [Mono dashboard](https://app.mono.co/customers) or [API](https://docs.mono.co/docs/customers).
+
+Alternatively, make an API call to the [Exchange Token Endpoint](https://api.withmono.com/v2/accounts/auth) with the code from a successful linking and your mono application secret key. If successful, this will return an Account ID.
+
 ##### Sample request:
-```java
+```shell
 curl --request POST \
-     --url https://api.withmono.com/accounts/65126512a15265e12/reauthorise \
-     --header 'accept: application/json' \
-     --header 'mono-sec-key: live_sk_your_secret_key'
+  --url https://api.withmono.com/v2/accounts/auth \
+  --header 'Content-Type: application/json' \
+  --header 'accept: application/json' \
+  --header 'mono-sec-key: your_secret_key' \
+  --data '{"code":"string"}'
 ```
+
 ##### Sample response:
-```java
+```json
 {
-  "token": "VwxcfeLRZvq1UlD5WiuN"
+  "id": "661d759280dbf646242634cc"
 }
 ```
+
 #### Step 2: Initiate your SDK with re-authorisation config option
-With step one out of the way, proceed to retrieve the re-authorisation token in the response above and pass it to your config option in your installed SDK. Implementation example provided below for an Android SDK
+With step one out of the way, pass the customer's Account ID to your config option in your installed SDK. Implementation example provided below for an Android SDK
+
 ```java
 MonoConfiguration config = new MonoConfiguration.Builder(this,
   "test_pk_...", // your publicKey
   (account) -> {
     System.out.println("Successfully linked account. Code: " + account.getCode());
   }) // onSuccess function
-  .addReauthCode("code_xyz")
+  .addAccountId("account_xyz")
   .build();
 ```
+
 #### Step 3: Trigger re-authorisation widget
-In this final step, ensure the widget is triggered open. Once opened the user provides a security information which can either: password, pin, OTP, token, security answer etc.
+In this final step, ensure the widget is launched with the new config. Once opened the user provides a security information which can be: password, pin, OTP, token, security answer etc.
 If the re-authorisation process is successful, the user's account becomes re-authorised after which two things happen.
 a. The 'mono.events.account_reauthorized' webhook event is sent to the webhook URL that you specified on your dashboard app.
 b. Updated financial data gets returned on the Mono connect data APIs when an API request is been made.
@@ -279,7 +288,7 @@ onSuccesss: (ConnectedAccount account) -> Void // required
 onClose: () -> Void // optional
 onEvent: (ConnectEvent event) -> Void // optional
 reference: String // optional
-reauthCode: String // optional
+accountId: String // optional
 ```
 #### Usage
 
@@ -290,7 +299,7 @@ MonoConfiguration config = new MonoConfiguration.Builder(this,
     System.out.println("Successfully linked account. Code: " + account.getCode());
   }) // onSuccess function
   .addReference("test")
-  .addReauthCode("code_xyz")
+  .addAccountId("account_xyz")
   .addCustomer(new MonoCustomer(id: "mono_customer_id"))
   .addOnEvent((event) -> {
     System.out.println("Triggered: "+event.getEventName());
@@ -403,15 +412,11 @@ public class MainActivity extends AppCompatActivity {
 
 }
 ```
-##### Reauthorising an account with MFA
+##### Reauthorising an account
 
-1. First you will need to get a Reauth token on your backend with the [Reauthorise API](https://docs.mono.co/reference/reauth-code).
+1. First you will need to fetch the Account ID for the previously linked account.
 
-2. Then you have to pass this token to the frontend for user authentication.
-
-3. Complete the reauthorisation flow by passing the token to the widget configuration and open the widget.
-
-**Note:** The reauth token expires in 10 minutes. You need to request a token on your backend and pass it to the frontend for use immediately.
+2. Then add this ID to the widget configuration object and open the widget.
 
 ```java
 package mono.connect.widget.sample;
@@ -445,7 +450,7 @@ public class MainActivity extends AppCompatActivity {
               System.out.println("Successfully reauthorised account. Code: "+code.getCode());
             })
             .addReference("f8k1jg4a82ndb")
-            .addReauthCode("code_xyz")
+            .addAccountId("account_xyz")
             .build();
 
     mConnectKit = Mono.reauthorise(config);

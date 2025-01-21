@@ -8,96 +8,118 @@ import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import com.google.gson.Gson;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ConnectKit {
-  private String key;
-  private Context context;
-  private ConnectData data;
+    private final String key;
+    private final Context context;
+    private ConnectData data;
 
-  //optionals
-  private MonoInstitution selectedInstitution = null;
+    //optionals
+    private String accountId = null;
 
-  private Map<String, String> params = new HashMap<>();
+    private MonoInstitution selectedInstitution = null;
 
-  public ConnectKit(Context context, String key) {
-    this.context = context;
-    this.key = key;
-  }
+    private final Map<String, String> params = new HashMap<>();
 
-  public ConnectKit(MonoConfiguration config){
-    this.context = config.context;
-    this.key = config.publicKey;
-
-    if(config.reference != null){
-      this.params.put(Constants.KEY_REFERENCE, config.reference);
-      MonoWebInterface.getInstance().setReference(config.reference);
+    public ConnectKit(Context context, String key) {
+        this.context = context;
+        this.key = key;
     }
 
-    if(config.reauthCode != null){
-      this.params.put(Constants.KEY_REAUTH_TOKEN, config.reauthCode);
+    public ConnectKit(MonoConfiguration config) {
+        this.context = config.context;
+        this.key = config.publicKey;
+
+        if (config.scope != null) {
+            this.params.put(Constants.KEY_SCOPE, config.scope);
+        }
+
+        if (config.reference != null) {
+            this.params.put(Constants.KEY_REFERENCE, config.reference);
+            MonoWebInterface.getInstance().setReference(config.reference);
+        }
+
+        if (config.accountId != null) {
+            this.accountId = config.accountId;
+            this.params.put(Constants.KEY_SCOPE, Constants.REAUTH_SCOPE);
+        }
+
+        if (config.onSuccess != null) {
+            MonoWebInterface.getInstance().setOnSuccess(config.onSuccess);
+        }
+        if (config.onClose != null) {
+            MonoWebInterface.getInstance().setOnClose(config.onClose);
+        }
+        if (config.onEvent != null) {
+            MonoWebInterface.getInstance().setOnEvent(config.onEvent);
+        }
+
+        if (config.selectedInstitution != null) {
+            this.selectedInstitution = config.selectedInstitution;
+        }
+
+        if (config.customer != null) {
+            this.data = new ConnectData(config.customer);
+        }
     }
 
-    if(config.onSuccess != null){
-      MonoWebInterface.getInstance().setOnSuccess(config.onSuccess);
-    }
-    if(config.onClose != null){
-      MonoWebInterface.getInstance().setOnClose(config.onClose);
-    }
-    if(config.onEvent != null){
-      MonoWebInterface.getInstance().setOnEvent(config.onEvent);
-    }
+    void startWidgetActivity() {
+        if (MonoWebInterface.getInstance().getOnSuccess() == null) {
+            Log.e(Constants.TAG, "onSuccess can't be null");
+            return;
+        }
 
-    if(config.selectedInstitution != null){
-      this.selectedInstitution = config.selectedInstitution;
+        Intent intent = new Intent(context, ConnectKitActivity.class);
+        intent.putExtra(Constants.KEY_URL, this.getUrl());
+        context.startActivity(intent);
     }
 
-    if(config.customer != null){
-      this.data = new ConnectData(config.customer);
-    }
-  }
-
-  void startWidgetActivity() {
-    if (MonoWebInterface.getInstance().getOnSuccess() == null) {
-      Log.e(Constants.TAG, "onSuccess can't be null");
-      return;
+    public void show() {
+        this.startWidgetActivity();
     }
 
-    Intent intent = new Intent(context, ConnectKitActivity.class);
-    intent.putExtra(Constants.KEY_URL, this.getUrl());
-    context.startActivity(intent);
-  }
+    public String getUrl() {
+        String data = new Gson().toJson(this.data);
 
-  public void show() {
-    this.startWidgetActivity();
-  }
+        if (this.accountId != null) {
+            try {
+                JSONObject fullData = new JSONObject(data);
+                fullData.put("account", this.accountId);
 
-  public String getUrl() {
-    Uri.Builder builder = new Uri.Builder();
-    builder.scheme(Constants.URL_SCHEME)
-      .authority(Constants.CONNECT_URL)
-      .appendQueryParameter(Constants.KEY_VERSION, Constants.VERSION)
-      .appendQueryParameter("key", this.key)
-      .appendQueryParameter("scope", Constants.SCOPE)
-      .appendQueryParameter("data", new Gson().toJson(this.data));
+                data = fullData.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
-    if (selectedInstitution != null) {
-      builder.appendQueryParameter("selectedInstitution", "{\"id\":\"" + selectedInstitution.getId()
-          + "\", \"auth_method\": \"" + selectedInstitution.getAuthMethod() + "\"}");
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme(Constants.URL_SCHEME)
+                .authority(Constants.CONNECT_URL)
+                .appendQueryParameter(Constants.KEY_VERSION, Constants.VERSION)
+                .appendQueryParameter("key", this.key)
+                .appendQueryParameter("data", data);
+
+        if (selectedInstitution != null) {
+            builder.appendQueryParameter("selectedInstitution", "{\"id\":\"" + selectedInstitution.getId()
+                    + "\", \"auth_method\": \"" + selectedInstitution.getAuthMethod() + "\"}");
+        }
+
+        for (Map.Entry<String, String> entry : this.params.entrySet()) {
+            builder.appendQueryParameter(entry.getKey(), entry.getValue());
+        }
+
+        return builder.build().toString();
     }
-
-    for (Map.Entry<String, String> entry : this.params.entrySet()) {
-      builder.appendQueryParameter(entry.getKey(), entry.getValue());
-    }
-
-    return builder.build().toString();
-  }
 }
 
 class ConnectData {
-  MonoCustomer customer;
+    MonoCustomer customer;
 
-  public ConnectData(MonoCustomer customer) {
-    this.customer = customer;
-  }
+    public ConnectData(MonoCustomer customer) {
+        this.customer = customer;
+    }
 }

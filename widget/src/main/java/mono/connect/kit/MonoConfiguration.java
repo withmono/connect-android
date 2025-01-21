@@ -11,7 +11,8 @@ public class MonoConfiguration {
 
     // optionals
     public String reference;
-    public String reauthCode;
+    public String scope;
+    public String accountId;
     public ConnectCloseCallback onClose;
     public ConnectEventCallback onEvent;
     public MonoInstitution selectedInstitution;
@@ -21,7 +22,8 @@ public class MonoConfiguration {
         this.context = builder.context;
         this.publicKey = builder.publicKey;
         this.reference = builder.reference;
-        this.reauthCode = builder.reauthCode;
+        this.scope = builder.scope;
+        this.accountId = builder.accountId;
         this.onSuccess = builder.onSuccess;
         this.onClose = builder.onClose;
         this.onEvent = builder.onEvent;
@@ -37,13 +39,14 @@ public class MonoConfiguration {
 
         // optionals
         private String reference = null;
-        private String reauthCode = null;
+        private String scope = Constants.SCOPE;
+        private String accountId = null;
         private ConnectCloseCallback onClose = null;
         private ConnectEventCallback onEvent = null;
         private MonoInstitution selectedInstitution = null;
         private MonoCustomer customer = null;
 
-        public Builder (Context context, String publicKey, ConnectSuccessCallback onSuccess){
+        public Builder(Context context, String publicKey, ConnectSuccessCallback onSuccess) {
             this.context = context;
             this.publicKey = publicKey;
             this.onSuccess = onSuccess;
@@ -54,27 +57,32 @@ public class MonoConfiguration {
             return this;
         }
 
-        public Builder addReauthCode(String reauthCode) {
-            this.reauthCode = reauthCode;
+        public Builder addScope(String scope) {
+            this.scope = scope;
             return this;
         }
 
-        public Builder addOnClose(ConnectCloseCallback onClose){
+        public Builder addAccountId(String accountId) {
+            this.accountId = accountId;
+            return this;
+        }
+
+        public Builder addOnClose(ConnectCloseCallback onClose) {
             this.onClose = onClose;
             return this;
         }
 
-        public Builder addOnEvent(ConnectEventCallback onEvent){
+        public Builder addOnEvent(ConnectEventCallback onEvent) {
             this.onEvent = onEvent;
             return this;
         }
 
-        public Builder addSelectedInstitution(MonoInstitution selectedInstitution){
+        public Builder addSelectedInstitution(MonoInstitution selectedInstitution) {
             this.selectedInstitution = selectedInstitution;
             return this;
         }
 
-        public Builder addCustomer(MonoCustomer customer){
+        public Builder addCustomer(MonoCustomer customer) {
             this.customer = customer;
             return this;
         }
