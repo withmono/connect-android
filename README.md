@@ -234,7 +234,7 @@ curl --request POST \
 ```
 
 #### Step 2: Initiate your SDK with re-authorisation config option
-With step one out of the way, pass the customer's Account ID to your config option in your installed SDK. Implementation example provided below for an Android SDK
+With step one out of the way, pass the customer's Account ID to your config option in your installed SDK. Implementation example provided below for the Android SDK
 
 ```java
 MonoConfiguration config = new MonoConfiguration.Builder(this,
@@ -354,7 +354,7 @@ timestamp: int // unix timestamp of the event as an Integer
 
 On a button click, get an auth `code` for a first time user from [Mono Connect Widget](https://docs.mono.co/docs/widgets).
 
-**Note:** Exchange tokens or a `code` must be passed to your backend for final verification with your `secretKey` for you can retrieve financial information. See [Exchange Token](https://docs.mono.co/reference/authentication-endpoint).
+**Note:** Exchange tokens or a `code` must be passed to your backend for final verification with your `secretKey` for you can retrieve financial information. See [Exchange Token](https://api.withmono.com/v2/accounts/auth).
 
 ```java
 package mono.connect.widget.sample;

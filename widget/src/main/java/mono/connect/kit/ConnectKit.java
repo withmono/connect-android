@@ -45,7 +45,9 @@ public class ConnectKit {
 
         if (config.accountId != null) {
             this.accountId = config.accountId;
-            this.params.put(Constants.KEY_SCOPE, Constants.REAUTH_SCOPE);
+            if (config.scope == null || config.scope.equals(Constants.SCOPE)) {
+                this.params.put(Constants.KEY_SCOPE, Constants.REAUTH_SCOPE);
+            }
         }
 
         if (config.onSuccess != null) {
