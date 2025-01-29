@@ -35,7 +35,7 @@ public class ConnectKitExample extends AppCompatActivity {
                 })
                 .addReference("test")
                 .addCustomer(customer)
-                .addReauthCode("code_xyz")
+//                .addAccountId("account_xyz")
                 .addOnEvent((event) -> {
                     System.out.println("Triggered: "+event.getEventName());
                     if(event.getData().has("reference")){

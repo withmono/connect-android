@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
             })
             .addReference("f8k1jg4a82ndb")
             .addCustomer(customer)
+//            .addAccountId("account_xyz")
             .addOnEvent((event) -> {
               System.out.println("Triggered: "+event.getEventName());
               if(event.getData().has("reference")){
