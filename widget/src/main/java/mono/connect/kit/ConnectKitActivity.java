@@ -3,6 +3,7 @@ package mono.connect.kit;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -73,8 +76,7 @@ public class ConnectKitActivity extends AppCompatActivity {
   @Override
   protected void onCreate(@Nullable Bundle bundle) {
     supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    enableEdgeToEdge();
 
     super.onCreate(bundle);
     setContentView(R.layout.main);
@@ -99,8 +101,8 @@ public class ConnectKitActivity extends AppCompatActivity {
     mWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
     mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
     mWebView.getSettings().setBuiltInZoomControls(true);
-    mWebView.getSettings().setMediaPlaybackRequiresUserGesture(true);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    mWebView.getSettings().setMediaPlaybackRequiresUserGesture(false);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       mWebView.getSettings().setSafeBrowsingEnabled(true);
     }
     mWebView.getSettings().setSupportZoom(true);
@@ -158,5 +160,22 @@ public class ConnectKitActivity extends AppCompatActivity {
         finish();
       }
     }
+  }
+
+  private void enableEdgeToEdge() {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
+
+    Window window = getWindow();
+
+    WindowCompat.setDecorFitsSystemWindows(window, false);
+
+    window.setStatusBarColor(Color.TRANSPARENT);
+    window.setNavigationBarColor(Color.TRANSPARENT);
+
+    WindowInsetsControllerCompat controller =
+            new WindowInsetsControllerCompat(window, window.getDecorView());
+
+    controller.setAppearanceLightStatusBars(true);
+    controller.setAppearanceLightNavigationBars(true);
   }
 }
