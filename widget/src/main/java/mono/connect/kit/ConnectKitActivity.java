@@ -164,6 +164,7 @@ public class ConnectKitActivity extends AppCompatActivity {
       }
     }
   }
+
   private void enableEdgeToEdge() {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
 
