@@ -78,9 +78,6 @@ public class ConnectKitActivity extends AppCompatActivity {
     supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
     enableEdgeToEdge();
 
-    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
     super.onCreate(bundle);
     setContentView(R.layout.main);
 
