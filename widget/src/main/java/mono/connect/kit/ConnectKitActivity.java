@@ -3,13 +3,11 @@ package mono.connect.kit;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.*;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -20,9 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,8 +77,6 @@ public class ConnectKitActivity extends AppCompatActivity {
   @Override
   protected void onCreate(@Nullable Bundle bundle) {
     supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-    enableEdgeToEdge();
-
     super.onCreate(bundle);
     setContentView(R.layout.main);
 
@@ -167,33 +162,16 @@ public class ConnectKitActivity extends AppCompatActivity {
     }
   }
 
-  private void enableEdgeToEdge() {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
-
-    Window window = getWindow();
-
-    WindowCompat.setDecorFitsSystemWindows(window, false);
-
-    window.setStatusBarColor(Color.TRANSPARENT);
-    window.setNavigationBarColor(Color.TRANSPARENT);
-
-    WindowInsetsControllerCompat controller =
-            new WindowInsetsControllerCompat(window, window.getDecorView());
-
-    controller.setAppearanceLightStatusBars(true);
-    controller.setAppearanceLightNavigationBars(true);
-  }
-
-  private void applySystemInsets() {
-    ViewCompat.setOnApplyWindowInsetsListener(mWebView, (v, windowInsets) -> {
-      Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
-      ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-      mlp.leftMargin = insets.left;
-      mlp.bottomMargin = insets.bottom;
-      mlp.topMargin = insets.top;
-      mlp.rightMargin = insets.right;
-      v.setLayoutParams(mlp);
-      return WindowInsetsCompat.CONSUMED;
-    });
-  }
+    private void applySystemInsets() {
+      ViewCompat.setOnApplyWindowInsetsListener(mWebView, (v, windowInsets) -> {
+          Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
+          ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+          mlp.leftMargin = insets.left;
+          mlp.bottomMargin = insets.bottom;
+          mlp.topMargin = insets.top;
+          mlp.rightMargin = insets.right;
+          v.setLayoutParams(mlp);
+          return WindowInsetsCompat.CONSUMED;
+      });
+    }
 }

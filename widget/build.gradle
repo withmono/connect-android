@@ -4,13 +4,12 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    namespace = 'mono.connect'
+    compileSdk 35
 
     defaultConfig {
-        targetSdk 33
+        targetSdk 35
         minSdk 23
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -21,9 +20,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
     }
 }
 
@@ -34,7 +40,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.withmono'
                 artifactId = 'connect-android'
-                version = "v2.2.1"
+                version = "v2.3.0"
                 pom {
                     description = 'The Mono Connect SDK is a quick and secure way to link bank accounts to Mono from within your Android app. Mono Connect is a drop-in framework that handles connecting a financial institution to your app.'
                 }
