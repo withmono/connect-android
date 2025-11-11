@@ -34,7 +34,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.withmono'
                 artifactId = 'connect-android'
-                version = "v2.2.0"
+                version = "v2.2.1"
                 pom {
                     description = 'The Mono Connect SDK is a quick and secure way to link bank accounts to Mono from within your Android app. Mono Connect is a drop-in framework that handles connecting a financial institution to your app.'
                 }
