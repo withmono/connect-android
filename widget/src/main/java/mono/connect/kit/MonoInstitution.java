@@ -6,6 +6,10 @@ public class MonoInstitution {
     private String auth_method;
     private String account_number;
 
+    public MonoInstitution(String id, String auth_method) {
+        this(id, auth_method, null);
+    }
+
     public MonoInstitution(String id, String auth_method, String account_number){
         this.id = id;
         this.auth_method = auth_method;

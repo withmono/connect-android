@@ -98,7 +98,7 @@ public class ConnectKit {
 
                 data = fullData.toString();
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.e(Constants.TAG, "Failed to create app data JSON", e);
             }
         }
 
@@ -118,7 +118,7 @@ public class ConnectKit {
 
                 builder.appendQueryParameter("selectedInstitution", json.toString());
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.e(Constants.TAG, "Failed to create JSON for selected institution", e);
             }
         }
 
