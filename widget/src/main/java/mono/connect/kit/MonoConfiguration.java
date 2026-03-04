@@ -13,6 +13,7 @@ public class MonoConfiguration {
     public String reference;
     public String scope;
     public String accountId;
+    public Boolean checkAccountMatch;
     public ConnectCloseCallback onClose;
     public ConnectEventCallback onEvent;
     public MonoInstitution selectedInstitution;
@@ -24,6 +25,7 @@ public class MonoConfiguration {
         this.reference = builder.reference;
         this.scope = builder.scope;
         this.accountId = builder.accountId;
+        this.checkAccountMatch = builder.checkAccountMatch;
         this.onSuccess = builder.onSuccess;
         this.onClose = builder.onClose;
         this.onEvent = builder.onEvent;
@@ -41,6 +43,7 @@ public class MonoConfiguration {
         private String reference = null;
         private String scope = Constants.SCOPE;
         private String accountId = null;
+        private Boolean checkAccountMatch = null;
         private ConnectCloseCallback onClose = null;
         private ConnectEventCallback onEvent = null;
         private MonoInstitution selectedInstitution = null;
@@ -64,6 +67,11 @@ public class MonoConfiguration {
 
         public Builder addAccountId(String accountId) {
             this.accountId = accountId;
+            return this;
+        }
+
+        public Builder addCheckAccountMatch(Boolean checkAccountMatch) {
+            this.checkAccountMatch = checkAccountMatch;
             return this;
         }
 

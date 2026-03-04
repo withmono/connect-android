@@ -206,6 +206,23 @@ MonoConfiguration config = new MonoConfiguration.Builder(this,
   .build();
 ```
 
+### <a name="checkAccountMatch"></a> `checkAccountMatch`
+**Boolean: Optional**
+
+The Account Match feature allows you to verify that the account number provided by a customer matches the account number returned from their linked bank account.
+
+```java
+MonoConfiguration config = new MonoConfiguration.Builder(this,
+  "test_pk_...", // your publicKey
+  (account) -> {
+    System.out.println("Successfully linked account. Code: " + account.getCode());
+  }) // onSuccess function
+  .addSelectedInstitution(new MonoInstitution("5f2d08bf60b92e2888287704", "internet_banking", "02605538421"))
+  .addReference("random_string")
+  .addCheckAccountMatch(true)
+  .build();
+```
+
 ### <a name="accountId"></a> `accountId`
 **String: Optional**
 
