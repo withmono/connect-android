@@ -103,7 +103,7 @@ findViewById(R.id.launch_widget).setOnClickListener(onClickListener);
 - [`reference`](#reference)
 - [`accountId`](#accountId)
 - [`selectedInstitution`](#selectedInstitution)
-
+- [`checkAccountMatch`](#checkAccountMatch)
 
 
 ### <a name="publicKey"></a> `publicKey`
@@ -254,9 +254,9 @@ b. Updated financial data gets returned on the Mono connect data APIs when an AP
 
 
 ### <a name="selectedInstitution"></a> `selectedInstitution`
-**String: Optional**
+**MonoInstitution: Optional**
 
-Passing the `selectedInstitution` option allows you to open  the widget directly to a financial institution's login page. It takes two options `String id` which is the id of the institution, and `String auth_method` which can be `"internet_banking"` or `"mobile_banking"` which will open to the respective bank login.
+Passing the `selectedInstitution` option allows you to open the widget directly to a financial institution's login page. It has three optional parameters `String id` which is the id of the institution, `String auth_method` which can be `"internet_banking"` or `"mobile_banking"`, and `String account_number` which is the customer's account number.
 
 ```java
 MonoConfiguration config = new MonoConfiguration.Builder(this,
@@ -268,7 +268,22 @@ MonoConfiguration config = new MonoConfiguration.Builder(this,
   .build();
 ```
 
+### <a name="checkAccountMatch"></a> `checkAccountMatch`
+**Boolean: Optional**
 
+The Account Match feature allows you to verify that the account number provided by a customer matches the account number returned from their linked bank account.
+
+```java
+MonoConfiguration config = new MonoConfiguration.Builder(this,
+  "test_pk_...", // your publicKey
+  (account) -> {
+    System.out.println("Successfully linked account. Code: " + account.getCode());
+  }) // onSuccess function
+  .addSelectedInstitution(new MonoInstitution("5f2d08bf60b92e2888287704", "internet_banking", "02605538421"))
+  .addReference("random_string")
+  .addCheckAccountMatch(true)
+  .build();
+```
 
 
 ## API Reference
@@ -289,6 +304,8 @@ onClose: () -> Void // optional
 onEvent: (ConnectEvent event) -> Void // optional
 reference: String // optional
 accountId: String // optional
+selectedInstitution: MonoInstitution // optional
+checkAccountMatch: Boolean // optional
 ```
 #### Usage
 

@@ -50,6 +50,10 @@ public class ConnectKit {
             }
         }
 
+        if (config.checkAccountMatch != null) {
+            this.params.put(Constants.KEY_CHECK_ACCOUNT_MATCH, config.checkAccountMatch.toString());
+        }
+
         if (config.onSuccess != null) {
             MonoWebInterface.getInstance().setOnSuccess(config.onSuccess);
         }
@@ -94,7 +98,7 @@ public class ConnectKit {
 
                 data = fullData.toString();
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.e(Constants.TAG, "Failed to create app data JSON", e);
             }
         }
 
@@ -106,8 +110,16 @@ public class ConnectKit {
                 .appendQueryParameter("data", data);
 
         if (selectedInstitution != null) {
-            builder.appendQueryParameter("selectedInstitution", "{\"id\":\"" + selectedInstitution.getId()
-                    + "\", \"auth_method\": \"" + selectedInstitution.getAuthMethod() + "\"}");
+            try {
+                JSONObject json = new JSONObject();
+                json.put("id", selectedInstitution.getId());
+                json.put("auth_method", selectedInstitution.getAuthMethod());
+                json.put("account_number", selectedInstitution.getAccountNumber());
+
+                builder.appendQueryParameter("selectedInstitution", json.toString());
+            } catch (JSONException e) {
+                Log.e(Constants.TAG, "Failed to create JSON for selected institution", e);
+            }
         }
 
         for (Map.Entry<String, String> entry : this.params.entrySet()) {
