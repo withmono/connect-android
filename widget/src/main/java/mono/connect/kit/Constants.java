@@ -11,5 +11,7 @@ public class Constants {
   public static String KEY_CHECK_ACCOUNT_MATCH = "check_account_match";
   public static String KEY_VERSION = "version";
   public static String VERSION = "2023-12-14";
+  public static String KEY_SDK_VERSION = "sdk_version";
+  public static String SDK_VERSION = mono.connect.BuildConfig.SDK_VERSION;
   public static String TAG = "mono.connect.widget";
 }

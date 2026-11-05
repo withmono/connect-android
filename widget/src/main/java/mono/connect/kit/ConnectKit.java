@@ -106,6 +106,7 @@ public class ConnectKit {
         builder.scheme(Constants.URL_SCHEME)
                 .authority(Constants.CONNECT_URL)
                 .appendQueryParameter(Constants.KEY_VERSION, Constants.VERSION)
+                .appendQueryParameter(Constants.KEY_SDK_VERSION, Constants.SDK_VERSION)
                 .appendQueryParameter("key", this.key)
                 .appendQueryParameter("data", data);
 
