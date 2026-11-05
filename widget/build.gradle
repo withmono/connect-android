@@ -12,7 +12,7 @@ android {
         minSdk 23
 
         // Single source of truth for the published SDK version.
-        project.ext.sdkVersion = '2.5.0'
+        project.ext.sdkVersion = '2.6.0'
 
         buildConfigField 'String', 'SDK_VERSION', "\"${project.ext.sdkVersion}\""
 
